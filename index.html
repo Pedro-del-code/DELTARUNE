@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EU VOU DIRIGIR-</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg1:#1a0f2e;
+    --bg2:#2d1b4e;
+    --hot-pink:#ff2e93;
+    --neon-green:#39ff88;
+    --neon-yellow:#ffe138;
+    --neon-cyan:#3ef8ff;
+    --ink:#fff8f0;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+  body{
+    background:
+      radial-gradient(circle at 15% 20%, rgba(255,46,147,0.25), transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(62,248,255,0.2), transparent 40%),
+      linear-gradient(160deg, var(--bg1), var(--bg2));
+    color:var(--ink);
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow-x:hidden;
+    position:relative;
+    padding:6vw 4vw;
+  }
+
+  /* checker strip top/bottom, pura zueira de fliperama */
+  .checker{
+    position:fixed; left:0; width:100%; height:14px;
+    background-image: repeating-linear-gradient(45deg, var(--neon-yellow) 0 14px, #111 14px 28px);
+    z-index:5;
+  }
+  .checker.top{ top:0; }
+  .checker.bottom{ bottom:0; }
+
+  .stage{
+    position:relative;
+    width:100%;
+    max-width:1000px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:2rem;
+  }
+
+  .main-text{
+    font-family:'Bungee', sans-serif;
+    font-size:clamp(2.6rem, 11vw, 8rem);
+    line-height:0.95;
+    color:var(--neon-yellow);
+    -webkit-text-stroke: 3px #1a0f2e;
+    text-shadow:
+      4px 4px 0 var(--hot-pink),
+      8px 8px 0 var(--neon-cyan),
+      0 0 40px rgba(255,225,56,0.5);
+    transform: rotate(-3deg);
+    letter-spacing:0.02em;
+    animation: wiggle 2.6s ease-in-out infinite;
+  }
+
+  @keyframes wiggle{
+    0%,100%{ transform: rotate(-3deg) scale(1); }
+    50%{ transform: rotate(2deg) scale(1.03); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .main-text{ animation:none; }
+  }
+
+  .sparkle{
+    position:absolute;
+    font-size:2rem;
+    color:var(--neon-cyan);
+    animation: spin 4s linear infinite;
+  }
+  .sparkle.s1{ top:-10%; left:2%; }
+  .sparkle.s2{ top:-6%; right:4%; color:var(--hot-pink); animation-duration:5s; }
+  .sparkle.s3{ bottom:-8%; left:8%; color:var(--neon-green); animation-duration:3.5s; }
+  .sparkle.s4{ bottom:-12%; right:6%; animation-duration:4.5s; }
+  @keyframes spin{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce){ .sparkle{ animation:none; } }
+
+  .cast{
+    display:flex;
+    gap:3rem;
+    flex-wrap:wrap;
+    justify-content:center;
+    margin-top:1rem;
+  }
+  .cast figure{
+    width:min(260px, 40vw);
+  }
+  .cast .frame{
+    background:#0f0a1c;
+    border:4px solid var(--neon-cyan);
+    box-shadow: 0 0 0 4px #0f0a1c, 0 0 24px rgba(62,248,255,0.5);
+    padding:8px;
+    transform: rotate(var(--tilt, -3deg));
+    transition: transform .3s ease;
+  }
+  .cast figure:nth-child(1) .frame{ --tilt:-4deg; border-color:var(--neon-yellow); box-shadow:0 0 0 4px #0f0a1c, 0 0 24px rgba(255,225,56,0.5); }
+  .cast figure:nth-child(2) .frame{ --tilt:4deg; border-color:var(--hot-pink); box-shadow:0 0 0 4px #0f0a1c, 0 0 24px rgba(255,46,147,0.5); }
+  .cast .frame:hover{ transform: rotate(0deg) scale(1.04); }
+  .cast img{ width:100%; display:block; image-rendering:pixelated; }
+  .cast figcaption{
+    margin-top:0.8rem;
+    font-family:'Bungee', sans-serif;
+    font-size:0.85rem;
+    letter-spacing:0.06em;
+    color:var(--neon-green);
+    text-shadow:2px 2px 0 #1a0f2e;
+  }
+
+  footer{
+    position:fixed;
+    bottom:20px;
+    left:0; right:0;
+    text-align:center;
+    z-index:6;
+  }
+  #music-toggle{
+    font-family:'Zen Kaku Gothic New', sans-serif;
+    font-weight:700;
+    font-size:0.8rem;
+    background:var(--hot-pink);
+    color:var(--ink);
+    border:3px solid var(--ink);
+    padding:0.6rem 1.2rem;
+    border-radius:999px;
+    cursor:pointer;
+    box-shadow:4px 4px 0 #1a0f2e;
+    transition:transform .2s ease;
+  }
+  #music-toggle:hover{ transform: translate(-2px,-2px); }
+  #music-toggle:active{ transform: translate(2px,2px); box-shadow:1px 1px 0 #1a0f2e; }
+
+  #wake-overlay{
+    position:fixed; inset:0; z-index:999;
+    background:#0f0a1c;
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:1.4rem; text-align:center; padding:2rem;
+    transition:opacity .6s ease, visibility .6s ease;
+  }
+  #wake-overlay.hidden{ opacity:0; visibility:hidden; pointer-events:none; }
+  #wake-btn{
+    font-family:'Bungee', sans-serif;
+    font-size:1rem;
+    background:var(--neon-yellow);
+    color:#1a0f2e;
+    border:none;
+    padding:1rem 2rem;
+    border-radius:999px;
+    cursor:pointer;
+    box-shadow:5px 5px 0 var(--hot-pink);
+  }
+  #wake-overlay p{ color:var(--ink); font-size:0.9rem; opacity:0.8; max-width:22rem; }
+
+  #yt-holder{ position:fixed; width:1px; height:1px; overflow:hidden; opacity:0; pointer-events:none; }
+</style>
+</head>
+<body>
+
+  <div id="wake-overlay">
+    <p style="font-family:'Bungee', sans-serif; font-size:1.3rem; color:var(--neon-yellow);">🐐 clica aí pra começar 🐐</p>
+    <button id="wake-btn">ATIVAR ZUEIRA</button>
+    <p>(tem som, ok?)</p>
+  </div>
+
+  <div class="checker top"></div>
+  <div class="checker bottom"></div>
+
+  <div id="yt-holder"></div>
+
+  <main class="stage">
+    <span class="sparkle s1">★</span>
+    <span class="sparkle s2">✦</span>
+    <span class="sparkle s3">✧</span>
+    <span class="sparkle s4">★</span>
+
+    <h1 class="main-text">EU VOU<br>DIRIGIR-</h1>
+
+    <div class="cast">
+      <figure>
+        <div class="frame"><img src="bode.jpg" alt="bode Deltarune"></div>
+        <figcaption>não, você não vai</figcaption>
+      </figure>
+      <figure>
+        <div class="frame"><img src="gato.jpg" alt="gato fumando Deltarune"></div>
+        <figcaption>senta lá, cambada</figcaption>
+      </figure>
+    </div>
+  </main>
+
+  <footer>
+    <button id="music-toggle">🎵 pausar música</button>
+  </footer>
+
+<script>
+  const overlay = document.getElementById('wake-overlay');
+  const wakeBtn = document.getElementById('wake-btn');
+  const ytHolder = document.getElementById('yt-holder');
+  const musicToggle = document.getElementById('music-toggle');
+  let player = null;
+  let playing = false;
+
+  function loadYT(cb){
+    if(window.YT && window.YT.Player){ cb(); return; }
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+    window.onYouTubeIframeAPIReady = cb;
+  }
+
+  function startMusic(){
+    const div = document.createElement('div');
+    div.id = 'yt-player';
+    ytHolder.appendChild(div);
+    loadYT(function(){
+      player = new YT.Player('yt-player', {
+        height: '1', width: '1',
+        videoId: 'VgwtLrTlnW0',
+        playerVars: { autoplay: 1, loop: 1, playlist: 'VgwtLrTlnW0', controls: 0 },
+        events: {
+          onReady: function(e){ e.target.setVolume(50); e.target.playVideo(); playing = true; }
+        }
+      });
+    });
+  }
+
+  wakeBtn.addEventListener('click', function(){
+    overlay.classList.add('hidden');
+    startMusic();
+  });
+
+  musicToggle.addEventListener('click', function(){
+    if(!player) return;
+    if(playing){ player.pauseVideo(); musicToggle.textContent = '🎵 tocar música'; }
+    else { player.playVideo(); musicToggle.textContent = '🎵 pausar música'; }
+    playing = !playing;
+  });
+</script>
+
+</body>
+</html>
